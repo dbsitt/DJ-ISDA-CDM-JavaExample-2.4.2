@@ -14,6 +14,7 @@ import org.isda.cdm.metafields.FieldWithMetaString;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.BigDecimalCloseTo.closeTo;
@@ -56,7 +57,36 @@ public class FixedRateCalculationWithFunction {
         FixedAmount.CalculationResult fixedAmountResult = new FixedAmount(fixedLegPeriod, null, null)
                 .calculate(fixedRatePayout);
 
+        List<IResult.Attribute<?>> attributes = fixedAmountResult.getAttributes();
+        System.out.println("Attributes Size: " +attributes.size());
+        System.out.println("Attributes: ");
+        for (IResult.Attribute attribute : attributes) {
+            System.out.println(attribute.getName());
+            System.out.println(attribute.getType());
+        }
+        System.out.println("==========================================");
 
+        FixedAmount.CalculationInput calInput = fixedAmountResult.getCalculationInput();
+        List<IResult.Attribute<?>> calInputAttributes = calInput.getAttributes();
+        System.out.println("CalculationInput Size: " +calInput.getAttributes().size());
+        System.out.println("calInputAttributes: ");
+        for (IResult.Attribute attribute : calInputAttributes) {
+            System.out.println(attribute.getName());
+            System.out.println(attribute.getType());
+            //System.out.println(attribute.get(attribute.getName());
+        }
+        System.out.println("==========================================");
+
+        InterestRatePayout interestRatePayout = calInput.getInterestRatePayout();
+        System.out.println("InterestRatePayout meta: " +interestRatePayout.getMeta());
+        System.out.println("InterestRatePayout toString: " +interestRatePayout.getRateSpecification());
+        /*System.out.println("calInputAttributes: ");
+        for (IResult.Attribute attribute : calInputAttributes) {
+            System.out.println(attribute.getName());
+            System.out.println(attribute.getType());
+            //System.out.println(attribute.get(attribute.getName());
+        }*/
+        System.out.println("==========================================");
         // Make assertions on the calculation results
         //
         printJson(fixedAmountResult);
